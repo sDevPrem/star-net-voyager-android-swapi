@@ -1,4 +1,4 @@
-package com.example.starnetvoyager.ui.home
+package com.example.starnetvoyager.ui.movie
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,33 +9,25 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.starnetvoyager.databinding.FragmentHomeBinding
+import com.example.starnetvoyager.databinding.FragmentMovieBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
-    private var binding: FragmentHomeBinding? = null
-    private val viewModel: HomeViewModel by viewModels()
+class MovieFragment : Fragment() {
+    private var binding: FragmentMovieBinding? = null
+    private val viewModel: MovieViewModel by viewModels()
 
-    private val charactersAdapter: CharactersAdapter by lazy {
-        CharactersAdapter {
-            findNavController().navigate(
-                HomeFragmentDirections
-                    .actionHomeFragmentToMovieFragment(it.id)
-            )
-        }
-    }
+    private val movieAdapter = MovieAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return FragmentHomeBinding.inflate(
+        return FragmentMovieBinding.inflate(
             inflater,
             container,
             false
@@ -51,26 +43,26 @@ class HomeFragment : Fragment() {
 
     private fun setUpObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.characters
+            viewModel.movies
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .collectLatest {
-                    charactersAdapter.submitData(lifecycle, it)
+                    movieAdapter.submitData(lifecycle, it)
                 }
         }
     }
 
     private fun setUpAdapter() = binding?.run {
-        charactersRecyclerview.apply {
-            adapter = charactersAdapter
+        moviesRecyclerview.apply {
+            adapter = movieAdapter
             layoutManager = GridLayoutManager(context, 2)
         }
 
-        charactersAdapter.addLoadStateListener { loadState ->
+        movieAdapter.addLoadStateListener { loadState ->
             when (loadState.refresh) {
                 is LoadState.Loading -> showProgressbar()
                 is LoadState.NotLoading -> showList()
                 is LoadState.Error -> {
-                    if (charactersAdapter.snapshot().isEmpty()) {
+                    if (movieAdapter.snapshot().isEmpty()) {
                         showErrorMsg(loadState.refresh as LoadState.Error)
                     } else {
                         showList()
@@ -81,22 +73,22 @@ class HomeFragment : Fragment() {
     }
 
     private fun showErrorMsg(errorLoadState: LoadState.Error?) = binding?.run {
-        charactersProgressBar.isVisible = false
-        charactersRecyclerview.isVisible = false
+        moviesProgressBar.isVisible = false
+        moviesProgressBar.isVisible = false
         textViewError.isVisible = true
         textViewError.text = errorLoadState?.error?.localizedMessage
     }
 
     private fun showProgressbar() = binding?.run {
-        charactersProgressBar.isVisible = true
+        moviesProgressBar.isVisible = true
         textViewError.isVisible = false
-        charactersRecyclerview.isVisible = false
+        moviesRecyclerview.isVisible = false
     }
 
     private fun showList() = binding?.run {
-        charactersRecyclerview.isVisible = true
+        moviesRecyclerview.isVisible = true
         textViewError.isVisible = false
-        charactersProgressBar.isVisible = false
+        moviesProgressBar.isVisible = false
     }
 
     override fun onDestroyView() {

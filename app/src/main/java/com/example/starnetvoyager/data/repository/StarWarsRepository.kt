@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import com.example.starnetvoyager.data.local.StarWarsDataStore
 import com.example.starnetvoyager.data.network.StarWarsDataSource
 import com.example.starnetvoyager.data.repository.paging.CharacterRemoteMediator
+import com.example.starnetvoyager.data.repository.paging.FilmRemoteMediator
 import javax.inject.Inject
 
 class StarWarsRepository @Inject constructor(
@@ -23,5 +24,19 @@ class StarWarsRepository @Inject constructor(
             starWarsDataSource
         ),
         pagingSourceFactory = { starWarsDataStore.characterDao().getCharacters() }
+    )
+
+    @OptIn(ExperimentalPagingApi::class)
+    fun getFilmsOfCharacters(characterId: Int) = Pager(
+        config = PagingConfig(
+            pageSize = 10,
+            maxSize = 100,
+        ),
+        remoteMediator = FilmRemoteMediator(
+            starWarsDataStore,
+            starWarsDataSource,
+            characterId
+        ),
+        pagingSourceFactory = { starWarsDataStore.filmDao().getFilmsOfCharacter(characterId) }
     )
 }

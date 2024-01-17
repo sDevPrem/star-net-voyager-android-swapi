@@ -11,8 +11,10 @@ buildscript {
 }
 plugins {
     val hilt_version: String by extra
+    val nav_version: String by extra
 
     id("com.android.application") version "8.2.0" apply false
     id("org.jetbrains.kotlin.android") version "1.9.10" apply false
     id("com.google.dagger.hilt.android") version hilt_version apply false
+    id("androidx.navigation.safeargs.kotlin") version nav_version apply false
 }

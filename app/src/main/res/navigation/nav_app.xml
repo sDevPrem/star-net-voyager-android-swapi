@@ -8,5 +8,18 @@
         android:id="@+id/homeFragment"
         android:name="com.example.starnetvoyager.ui.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_movieFragment"
+            app:destination="@id/movieFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieFragment"
+        android:name="com.example.starnetvoyager.ui.movie.MovieFragment"
+        android:label="MovieFragment"
+        tools:layout="@layout/fragment_movie">
+        <argument
+            android:name="charcter_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

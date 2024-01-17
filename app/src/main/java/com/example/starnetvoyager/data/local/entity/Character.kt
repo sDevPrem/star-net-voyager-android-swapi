@@ -8,16 +8,26 @@ import com.example.starnetvoyager.data.network.model.CharacterResponse
 @Entity(tableName = "character")
 data class Character(
     @PrimaryKey(autoGenerate = false)
-    val id: Int = 0,
-    @ColumnInfo(name = "name")
+    @ColumnInfo(TableInfo.ID_COLUMN_NAME)
+    val id: Int,
+    @ColumnInfo(name = TableInfo.NAME_COLUMN_NAME)
     val name: String,
-    @ColumnInfo(name = "gender")
+    @ColumnInfo(name = TableInfo.GENDER_COLUMN_NAME)
     val gender: String,
-    @ColumnInfo(name = "height")
+    @ColumnInfo(name = TableInfo.HEIGHT_COLUMN_NAME)
     val height: String,
-    @ColumnInfo(name = "birth_year")
+    @ColumnInfo(name = TableInfo.BIRTH_YEAR_COLUMN_NAME)
     val birthYear: String,
 ) {
+
+    object TableInfo {
+        const val ID_COLUMN_NAME = "id"
+        const val NAME_COLUMN_NAME = "name"
+        const val GENDER_COLUMN_NAME = "gender"
+        const val HEIGHT_COLUMN_NAME = "height"
+        const val BIRTH_YEAR_COLUMN_NAME = "birth_year"
+    }
+
     companion object {
         fun CharacterResponse.toCharacter() = Character(
             name = name,
