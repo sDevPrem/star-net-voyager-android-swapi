@@ -13,12 +13,12 @@ import com.example.starnetvoyager.data.network.StarWarsDataSource
 
 @ExperimentalPagingApi
 class CharacterRemoteMediator(
-    private val characterDataStore: StarWarsDataStore,
-    private val characterDataSource: StarWarsDataSource
+    private val starWarsDataStore: StarWarsDataStore,
+    private val starWarsDataSource: StarWarsDataSource
 ) : RemoteMediator<Int, Character>() {
 
-    private val characterDao = characterDataStore.characterDao()
-    private val characterRemoteKeyDao = characterDataStore.characterRemoteKeyDao()
+    private val characterDao = starWarsDataStore.characterDao()
+    private val characterRemoteKeyDao = starWarsDataStore.characterRemoteKeyDao()
 
     override suspend fun load(
         loadType: LoadType,
@@ -50,13 +50,13 @@ class CharacterRemoteMediator(
                 }
             }
 
-            val response = characterDataSource.getCharacters(currentPage)
+            val response = starWarsDataSource.getCharacters(currentPage)
             val endOfPaginationReached = response.nextPageUrl == null
 
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
-            characterDataStore.withTransaction {
+            starWarsDataStore.withTransaction {
 
                 if (loadType == LoadType.REFRESH) {
                     characterDao.deleteCharacters()
