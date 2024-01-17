@@ -35,6 +35,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+    }
 }
 
 dependencies {
@@ -44,6 +49,8 @@ dependencies {
     val hilt_version: String by rootProject.extra
     val coroutines_version: String by rootProject.extra
     val retrofit_version: String by rootProject.extra
+    val gson_version: String by rootProject.extra
+    val paging_version: String by rootProject.extra
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -52,6 +59,9 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    //paging
+    implementation("androidx.paging:paging-runtime:$paging_version")
 
     // navigation
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
@@ -68,6 +78,7 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-paging:$room_version")
 
     //hilt
     implementation("com.google.dagger:hilt-android:${hilt_version}")
@@ -75,6 +86,8 @@ dependencies {
 
     //retrofit
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    //gson
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
 }
 
 kapt {
