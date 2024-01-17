@@ -26,7 +26,10 @@ class HomeFragment : Fragment() {
         CharactersAdapter {
             findNavController().navigate(
                 HomeFragmentDirections
-                    .actionHomeFragmentToMovieFragment(it.id)
+                    .actionHomeFragmentToMovieFragment(
+                        it.id,
+                        it.name
+                    )
             )
         }
     }

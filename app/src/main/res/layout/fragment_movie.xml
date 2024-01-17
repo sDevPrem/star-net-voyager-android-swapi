@@ -5,44 +5,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorOnSurfaceInverse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_backward"
+            tools:title="Title" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/moviesRecyclerview"
+        android:id="@+id/movies_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         tools:listitem="@layout/rv_item_movie" />
 
     <ProgressBar
-        android:id="@+id/moviesProgressBar"
+        android:id="@+id/movies_progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminateTintMode="src_in"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/moviesRecyclerview"
-        app:layout_constraintEnd_toEndOf="@+id/moviesRecyclerview"
-        app:layout_constraintStart_toStartOf="@+id/moviesRecyclerview"
-        app:layout_constraintTop_toTopOf="@+id/moviesRecyclerview" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/textViewError"
+        android:id="@+id/text_view_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:textAlignment="center"
         android:textAppearance="?textAppearanceBodyLarge"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/moviesRecyclerview"
-        app:layout_constraintEnd_toEndOf="@+id/moviesRecyclerview"
-        app:layout_constraintStart_toStartOf="@+id/moviesRecyclerview"
-        app:layout_constraintTop_toTopOf="@+id/moviesRecyclerview"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Something went wrong!" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

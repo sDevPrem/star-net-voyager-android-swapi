@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.starnetvoyager.databinding.FragmentMovieBinding
@@ -18,8 +20,10 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MovieFragment : Fragment() {
+
     private var binding: FragmentMovieBinding? = null
     private val viewModel: MovieViewModel by viewModels()
+    private val args by navArgs<MovieFragmentArgs>()
 
     private val movieAdapter = MovieAdapter()
 
@@ -36,10 +40,15 @@ class MovieFragment : Fragment() {
         }.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = binding?.run {
+        topAppBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+        topAppBar.title = "Movies of ${args.characterName}"
+
         setUpAdapter()
         setUpObserver()
-    }
+    } ?: Unit
 
     private fun setUpObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -52,7 +61,7 @@ class MovieFragment : Fragment() {
     }
 
     private fun setUpAdapter() = binding?.run {
-        moviesRecyclerview.apply {
+        moviesRecyclerView.apply {
             adapter = movieAdapter
             layoutManager = GridLayoutManager(context, 2)
         }
@@ -82,11 +91,11 @@ class MovieFragment : Fragment() {
     private fun showProgressbar() = binding?.run {
         moviesProgressBar.isVisible = true
         textViewError.isVisible = false
-        moviesRecyclerview.isVisible = false
+        moviesRecyclerView.isVisible = false
     }
 
     private fun showList() = binding?.run {
-        moviesRecyclerview.isVisible = true
+        moviesRecyclerView.isVisible = true
         textViewError.isVisible = false
         moviesProgressBar.isVisible = false
     }

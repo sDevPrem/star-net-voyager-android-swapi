@@ -21,5 +21,8 @@
         <argument
             android:name="charcter_id"
             app:argType="integer" />
+        <argument
+            android:name="character_name"
+            app:argType="string" />
     </fragment>
 </navigation>
