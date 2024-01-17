@@ -27,8 +27,10 @@ data class CharacterResponse(
     @SerializedName("url")
     val url: String
 ) {
-    val id: Int = url
-        .toUri()
-        .lastPathSegment
-        ?.toInt() ?: 0
+    val id: Int
+        get() = url
+            .toUri()
+            .lastPathSegment
+            ?.toInt() ?: 0
+
 }
