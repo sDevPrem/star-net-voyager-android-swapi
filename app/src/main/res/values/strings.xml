@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StarNet Voyager</string>
+    <string name="network_error_msg">Oops! Something went wrong. Please try again later</string>
 </resources>

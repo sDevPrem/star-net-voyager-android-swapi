@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.starnetvoyager.R
 import com.example.starnetvoyager.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -93,7 +94,7 @@ class HomeFragment : Fragment() {
         charactersProgressBar.isVisible = false
         charactersRecyclerview.isVisible = false
         textViewError.isVisible = true
-        textViewError.text = errorLoadState?.error?.localizedMessage
+        textViewError.setText(R.string.network_error_msg)
     }
 
     private fun showProgressbar() = binding?.run {

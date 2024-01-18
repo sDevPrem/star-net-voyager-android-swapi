@@ -52,9 +52,9 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textViewError"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="24dp"
         android:textAlignment="center"
         android:textAppearance="?textAppearanceBodyLarge"
         android:visibility="gone"
