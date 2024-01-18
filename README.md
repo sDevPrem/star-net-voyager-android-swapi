@@ -14,11 +14,9 @@ API using MVVM and clean architecture and uses Room database as a single source 
 5. Room database to cache Characters and Movies data.
 6. Hilt for dependency injection.
 
-## Screenshot
-
-|                                                                                                                                            |                                                                                                                                                         |                                                                                                                                             |
-|--------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| ![star_net_voyager_home](https://github.com/sDevPrem/star-net-voyager-android-swapi/assets/130966261/05d390b2-6a62-4af6-aa87-05365ad75ba3) | ![star_net_voyager_character_filters](https://github.com/sDevPrem/star-net-voyager-android-swapi/assets/130966261/36c7cdfd-4cd3-485d-9d63-87e08780b534) | ![star_net_voyager_movie](https://github.com/sDevPrem/star-net-voyager-android-swapi/assets/130966261/1fa2c774-c822-4384-b70f-d0d8a12b9c52) |
+|                                                                                                                                            |                                                                                                                                                         |                                                                                                                                            |
+|--------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| ![star_net_voyager_home](https://github.com/sDevPrem/star-net-voyager-android-swapi/assets/130966261/1fa2c774-c822-4384-b70f-d0d8a12b9c52) | ![star_net_voyager_character_filters](https://github.com/sDevPrem/star-net-voyager-android-swapi/assets/130966261/36c7cdfd-4cd3-485d-9d63-87e08780b534) | ![star_net_voyager_home](https://github.com/sDevPrem/star-net-voyager-android-swapi/assets/130966261/05d390b2-6a62-4af6-aa87-05365ad75ba3) |
 
 ## Build With
 
