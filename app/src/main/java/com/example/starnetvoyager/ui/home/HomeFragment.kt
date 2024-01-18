@@ -5,18 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.starnetvoyager.R
+import com.example.starnetvoyager.data.local.entity.Character
 import com.example.starnetvoyager.databinding.FragmentHomeBinding
+import com.example.starnetvoyager.ui.home.dialog.CharacterFilterBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -53,15 +57,34 @@ class HomeFragment : Fragment() {
         setUpAdapter()
         setUpObserver()
 
-        characterSearch.addTextChangedListener {
-            viewModel.searchCharacter(it?.toString())
+        characterToolbar.setOnMenuItemClickListener {
+            return@setOnMenuItemClickListener when (it.itemId) {
+                R.id.character_filter -> {
+                    CharacterFilterBottomSheet().show(childFragmentManager, null)
+                    true
+                }
+
+                else -> false
+            }
         }
+
         return@run
     } ?: Unit
 
     private fun setUpObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.characters
+            viewModel.state
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .distinctUntilChangedBy { it.characters }
+                .collectLatest {
+                    observePagingData(it.characters)
+                }
+        }
+    }
+
+    private fun observePagingData(flow: Flow<PagingData<Character>>) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            flow
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .collectLatest {
                     charactersAdapter.submitData(lifecycle, it)

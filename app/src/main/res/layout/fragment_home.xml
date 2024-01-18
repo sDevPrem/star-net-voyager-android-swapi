@@ -5,25 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/character_search"
-        android:layout_width="0dp"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/character_top_app_bar_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/shape_rect_8dp_corner_primary"
-        android:drawableEnd="@drawable/ic_search"
-        android:drawablePadding="8dp"
-        android:hint="search star wars characters"
-        android:imeOptions="actionSearch"
-        android:maxLines="1"
-        android:padding="16dp"
-        android:singleLine="true"
-        android:textAppearance="?attr/textAppearanceBodyLarge"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="lakjdfl;ajdf l;askjdf la;sdjf l;asdjfl;asdfj ;lasdjf al;sdf as;ldf ja;lsdf ja;ldfj a;ldf ja;l" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/character_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorOnSurfaceInverse"
+            app:menu="@menu/menu_home_top_bar"
+            app:title="Star Wars Characters" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/charactersRecyclerview"
@@ -35,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/character_search"
+        app:layout_constraintTop_toBottomOf="@+id/character_top_app_bar_layout"
         tools:listitem="@layout/rv_item_character" />
 
     <ProgressBar

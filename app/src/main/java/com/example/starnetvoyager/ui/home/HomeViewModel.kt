@@ -1,34 +1,77 @@
 package com.example.starnetvoyager.ui.home
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import com.example.starnetvoyager.data.repository.StarWarsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     repository: StarWarsRepository,
-    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    val characters =
-        savedStateHandle.getStateFlow<String?>(SEARCH_QUERY_KEY, null)
-            .debounce(1_000)
-            .flatMapLatest { repository.getCharacters(it).flow }
-            .cachedIn(viewModelScope)
 
-    fun searchCharacter(name: String?) {
-        savedStateHandle[SEARCH_QUERY_KEY] = name
-    }
+    private val _state = MutableStateFlow(HomeUIState.EmptyState)
 
-    companion object {
-        private const val SEARCH_QUERY_KEY = "character_search_query"
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val characters =
+        _state.distinctUntilChangedBy { it.filters.searchQuery }
+            .mapLatest {
+                repository.getCharacters(it.filters.searchQuery).flow.cachedIn(viewModelScope)
+            }
+
+
+    private val filteredCharacters = characters
+        .combine(_state.distinctUntilChangedBy { it.filters.selectedGender }) { data, state ->
+            val selectedGender = state.filters.selectedGender
+            data.map {
+                it.filter { character ->
+                    when (selectedGender) {
+                        CharacterFilters.Gender.MALE, CharacterFilters.Gender.FEMALE -> {
+                            character.gender.equals(selectedGender.name, true)
+                        }
+
+                        CharacterFilters.Gender.OTHER -> {
+                            !character.gender.equals(CharacterFilters.Gender.MALE.name, true) &&
+                                    !character.gender.equals(
+                                        CharacterFilters.Gender.FEMALE.name,
+                                        true
+                                    )
+                        }
+
+                        CharacterFilters.Gender.ALL -> true
+                    }
+                }
+            }
+        }
+
+    val state = _state.combine(filteredCharacters) { state, characters ->
+        state.copy(
+            characters = characters,
+            filters = state.filters
+        )
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5_000),
+        HomeUIState.EmptyState
+    )
+
+    fun setFilter(filter: CharacterFilters) {
+        _state.update {
+            it.copy(
+                filters = filter
+            )
+        }
     }
 }

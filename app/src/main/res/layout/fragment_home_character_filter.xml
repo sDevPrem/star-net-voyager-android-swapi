@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/filter_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Filters"
+        android:textAppearance="?attr/textAppearanceHeadlineMedium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="8dp"
+        android:background="?attr/colorOutline"
+        app:layout_constraintTop_toBottomOf="@+id/filter_title" />
+
+    <EditText
+        android:id="@+id/character_search"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_rect_8dp_corner_primary"
+        android:drawableEnd="@drawable/ic_search"
+        android:drawablePadding="8dp"
+        android:hint="search star wars characters"
+        android:imeOptions="actionSearch"
+        android:maxLines="1"
+        android:padding="16dp"
+        android:singleLine="true"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        tools:text="lakjdfl;ajdf l;askjdf la;sdjf l;asdjfl;asdfj ;lasdjf al;sdf as;ldf ja;lsdf ja;ldfj a;ldf ja;l" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/select_gender_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Select Gender"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        app:layout_constraintStart_toStartOf="@+id/character_search"
+        app:layout_constraintTop_toBottomOf="@+id/character_search" />
+
+
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+    <!--        android:id="@+id/select_gender"-->
+    <!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/character_search"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/select_gender_title"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/select_gender_title">-->
+
+    <!--        <AutoCompleteTextView-->
+    <!--            android:id="@+id/select_gender_auto_complete_tv"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+
+    <!--            />-->
+
+    <!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+    <Spinner
+        android:id="@+id/select_gender"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_rect_8dp_corner_primary"
+        app:layout_constraintEnd_toEndOf="@+id/character_search"
+        app:layout_constraintStart_toStartOf="@+id/select_gender_title"
+        app:layout_constraintTop_toBottomOf="@+id/select_gender_title" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/apply_filter_btn"
+        style="@style/Widget.Material3.Button.IconButton.Filled"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
+        android:text="Apply Filter"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/select_gender"
+        app:layout_constraintStart_toStartOf="@+id/select_gender"
+        app:layout_constraintTop_toBottomOf="@+id/select_gender" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
