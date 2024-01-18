@@ -1,10 +1,5 @@
 # StarNet Voyager
 
-RunTrack is a Fitness Tracking app utilizing modern Android technologies, including
-Jetpack Compose, MVVM architecture, and Google Maps API. The app allows users to
-track their running activities, displaying real-time routes on an interactive map
-while storing essential statistics using Room database.
-
 In StarNet Voyager, you can explore the characters of Star Wars and movies performed by them.
 It is an Android client implementation of [SWAPI](https://swapi.dev/documentation)
 API using MVVM and clean architecture and uses Room database as a single source of truth.
