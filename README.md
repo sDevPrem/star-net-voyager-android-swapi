@@ -46,6 +46,16 @@ Mission Coordinator ensuring co-working.
 This app follows MVVM architecture with Clean architecture, Uni Directional Flow (UDF) pattern
 and Single Activity architecture pattern.
 
+### Packages
+
+*`:data:` - The data origin point.
+|---`:local:` - Handles data with a local database (Room).
+|---`network` - Handles remote APIs.
+|---`repository` - Decides from where and how the data should come (local or remote).
+*`:di:` - Hilt modules
+*`:domain:` - Central nervous system of the app containing the contract between UI and Data layer.
+*`:ui` - All the Screens UI lies here in subpackages.
+
 ## Installation
 
 Simple clone this app and open in Android Studio.
