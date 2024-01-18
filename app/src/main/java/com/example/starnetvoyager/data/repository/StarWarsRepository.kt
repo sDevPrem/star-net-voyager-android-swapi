@@ -14,16 +14,17 @@ class StarWarsRepository @Inject constructor(
     private val starWarsDataStore: StarWarsDataStore
 ) {
     @OptIn(ExperimentalPagingApi::class)
-    fun getCharacters() = Pager(
+    fun getCharacters(searchQuery: String? = null) = Pager(
         config = PagingConfig(
             pageSize = 10,
             maxSize = 100,
         ),
         remoteMediator = CharacterRemoteMediator(
+            searchQuery,
             starWarsDataStore,
             starWarsDataSource
         ),
-        pagingSourceFactory = { starWarsDataStore.characterDao().getCharacters() }
+        pagingSourceFactory = { starWarsDataStore.characterDao().getCharacters(searchQuery) }
     )
 
     @OptIn(ExperimentalPagingApi::class)

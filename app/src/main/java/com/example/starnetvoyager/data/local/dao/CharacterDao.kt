@@ -13,6 +13,16 @@ interface CharacterDao {
     @Query("SELECT * FROM character")
     fun getCharacters(): PagingSource<Int, Character>
 
+    @Query(
+        "SELECT * FROM character " +
+                "WHERE (" +
+                "   :searchQuery is null or " +
+                "       LENGTH(:searchQuery) = 0 or " +
+                "       character.name LIKE '%' || :searchQuery || '%'" +
+                "   )"
+    )
+    fun getCharacters(searchQuery: String?): PagingSource<Int, Character>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCharacters(characters: List<Character>): List<Long>
 

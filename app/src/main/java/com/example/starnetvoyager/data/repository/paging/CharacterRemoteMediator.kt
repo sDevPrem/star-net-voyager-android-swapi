@@ -13,6 +13,7 @@ import com.example.starnetvoyager.data.network.StarWarsDataSource
 
 @ExperimentalPagingApi
 class CharacterRemoteMediator(
+    private val searchQuery: String?,
     private val starWarsDataStore: StarWarsDataStore,
     private val starWarsDataSource: StarWarsDataSource
 ) : RemoteMediator<Int, Character>() {
@@ -50,7 +51,7 @@ class CharacterRemoteMediator(
                 }
             }
 
-            val response = starWarsDataSource.getCharacters(currentPage)
+            val response = starWarsDataSource.getCharacters(searchQuery.orEmpty(), currentPage)
             val endOfPaginationReached = response.nextPageUrl == null
 
             val prevPage = if (currentPage == 1) null else currentPage - 1
@@ -59,8 +60,10 @@ class CharacterRemoteMediator(
             starWarsDataStore.withTransaction {
 
                 if (loadType == LoadType.REFRESH) {
-                    characterDao.deleteCharacters()
                     characterRemoteKeyDao.deleteAllRemoteKeys()
+                    if (searchQuery.isNullOrBlank()) {
+                        characterDao.deleteCharacters()
+                    }
                 }
 
                 val ids = characterDao.insertCharacters(response.results.map { it.toCharacter() })

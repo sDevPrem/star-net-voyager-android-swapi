@@ -10,7 +10,7 @@ import retrofit2.http.Url
 
 interface StarWarsDataSource {
 
-    @GET("people/?page")
+    @GET("people")
     suspend fun getCharacters(@Query("page") page: Int): PeopleResponse
 
     @GET
@@ -21,5 +21,11 @@ interface StarWarsDataSource {
 
     @GET("people/{id}")
     suspend fun getCharacterFilm(@Path("id") id: Int): CharacterFilms
+
+    @GET("people")
+    suspend fun getCharacters(
+        @Query("search") query: String,
+        @Query("page") page: Int
+    ): PeopleResponse
 
 }
