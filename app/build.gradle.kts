@@ -62,7 +62,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     //paging
-    implementation("androidx.paging:paging-runtime:$paging_version")
+    implementation("androidx.paging:paging-runtime-ktx:$paging_version")
 
     // navigation
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
