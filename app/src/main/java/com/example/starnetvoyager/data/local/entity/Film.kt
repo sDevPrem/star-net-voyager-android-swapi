@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.starnetvoyager.data.network.model.FilmResponse
+import com.example.starnetvoyager.domain.entity.StarWarsMovie
 
 @Entity
 data class Film(
@@ -29,3 +30,9 @@ data class Film(
         )
     }
 }
+
+fun Film.toDomain() = StarWarsMovie(
+    id = id,
+    openingCrawl = openingCrawl,
+    title = title
+)

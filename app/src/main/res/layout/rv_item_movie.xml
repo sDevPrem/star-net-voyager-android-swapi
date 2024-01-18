@@ -6,7 +6,7 @@
     <data>
         <variable
             name="film"
-            type="com.example.starnetvoyager.data.local.entity.Film" />
+            type="com.example.starnetvoyager.domain.entity.StarWarsMovie" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

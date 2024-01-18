@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.starnetvoyager.data.network.model.CharacterResponse
+import com.example.starnetvoyager.domain.entity.StarWarsCharacter
 
 @Entity(tableName = "character")
 data class Character(
@@ -38,3 +39,11 @@ data class Character(
         )
     }
 }
+
+fun Character.toDomain() = StarWarsCharacter(
+    id = id,
+    name = name,
+    gender = gender,
+    height = height,
+    birthYear = birthYear
+)

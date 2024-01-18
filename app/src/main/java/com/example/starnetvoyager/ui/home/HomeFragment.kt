@@ -14,8 +14,8 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.starnetvoyager.R
-import com.example.starnetvoyager.data.local.entity.Character
 import com.example.starnetvoyager.databinding.FragmentHomeBinding
+import com.example.starnetvoyager.domain.entity.StarWarsCharacter
 import com.example.starnetvoyager.ui.home.dialog.CharacterFilterBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
@@ -82,7 +82,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun observePagingData(flow: Flow<PagingData<Character>>) {
+    private fun observePagingData(flow: Flow<PagingData<StarWarsCharacter>>) {
         viewLifecycleOwner.lifecycleScope.launch {
             flow
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle)

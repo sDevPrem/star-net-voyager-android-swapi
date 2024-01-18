@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.filter
-import com.example.starnetvoyager.data.repository.StarWarsRepository
+import com.example.starnetvoyager.domain.repository.StarWarsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
     private val characters =
         _state.distinctUntilChangedBy { it.filters.searchQuery }
             .mapLatest {
-                repository.getCharacters(it.filters.searchQuery).flow.cachedIn(viewModelScope)
+                repository.getCharacters(it.filters.searchQuery).cachedIn(viewModelScope)
             }
 
 

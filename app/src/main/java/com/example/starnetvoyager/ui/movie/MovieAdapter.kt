@@ -5,16 +5,16 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.starnetvoyager.data.local.entity.Film
 import com.example.starnetvoyager.databinding.RvItemMovieBinding
+import com.example.starnetvoyager.domain.entity.StarWarsMovie
 
 class MovieAdapter :
-    PagingDataAdapter<Film, MovieAdapter.MovieItemViewHolder>(CHARACTER_COMPARATOR) {
+    PagingDataAdapter<StarWarsMovie, MovieAdapter.MovieItemViewHolder>(CHARACTER_COMPARATOR) {
 
     inner class MovieItemViewHolder(private val binding: RvItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(film: Film?) {
+        fun bind(film: StarWarsMovie?) {
             binding.film = film
         }
     }
@@ -36,12 +36,15 @@ class MovieAdapter :
     }
 
     companion object {
-        private val CHARACTER_COMPARATOR = object : DiffUtil.ItemCallback<Film>() {
-            override fun areItemsTheSame(oldItem: Film, newItem: Film): Boolean {
+        private val CHARACTER_COMPARATOR = object : DiffUtil.ItemCallback<StarWarsMovie>() {
+            override fun areItemsTheSame(oldItem: StarWarsMovie, newItem: StarWarsMovie): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Film, newItem: Film): Boolean {
+            override fun areContentsTheSame(
+                oldItem: StarWarsMovie,
+                newItem: StarWarsMovie
+            ): Boolean {
                 return oldItem == newItem
             }
         }

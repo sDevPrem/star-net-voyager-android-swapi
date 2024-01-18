@@ -5,17 +5,17 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.starnetvoyager.data.local.entity.Character
 import com.example.starnetvoyager.databinding.RvItemCharacterBinding
+import com.example.starnetvoyager.domain.entity.StarWarsCharacter
 
 class CharactersAdapter(
-    private val onClickListener: (Character) -> Unit,
-) : PagingDataAdapter<Character, CharactersAdapter.MyViewHolder>(CHARACTER_COMPARATOR) {
+    private val onClickListener: (StarWarsCharacter) -> Unit,
+) : PagingDataAdapter<StarWarsCharacter, CharactersAdapter.MyViewHolder>(CHARACTER_COMPARATOR) {
 
     inner class MyViewHolder(private val binding: RvItemCharacterBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(character: Character?) {
+        fun bind(character: StarWarsCharacter?) {
             binding.character = character
         }
     }
@@ -40,12 +40,18 @@ class CharactersAdapter(
     }
 
     companion object {
-        private val CHARACTER_COMPARATOR = object : DiffUtil.ItemCallback<Character>() {
-            override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
+        private val CHARACTER_COMPARATOR = object : DiffUtil.ItemCallback<StarWarsCharacter>() {
+            override fun areItemsTheSame(
+                oldItem: StarWarsCharacter,
+                newItem: StarWarsCharacter
+            ): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
+            override fun areContentsTheSame(
+                oldItem: StarWarsCharacter,
+                newItem: StarWarsCharacter
+            ): Boolean {
                 return oldItem == newItem
             }
         }

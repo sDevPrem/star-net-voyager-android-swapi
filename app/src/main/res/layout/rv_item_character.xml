@@ -3,7 +3,7 @@
     <data>
         <variable
             name="character"
-            type="com.example.starnetvoyager.data.local.entity.Character" />
+            type="com.example.starnetvoyager.domain.entity.StarWarsCharacter" />
     </data>
 
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"

@@ -3,6 +3,9 @@ package com.example.starnetvoyager.di
 import android.content.Context
 import com.example.starnetvoyager.data.local.StarWarsDataStore
 import com.example.starnetvoyager.data.network.StarWarsDataSource
+import com.example.starnetvoyager.data.repository.StarWarsRepositoryImpl
+import com.example.starnetvoyager.domain.repository.StarWarsRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,52 +20,58 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+abstract class AppModule {
 
-    @Singleton
-    @Provides
-    fun providesBaseUrl(): String {
-        return "https://swapi.dev/api/"
+    companion object {
+        @Singleton
+        @Provides
+        fun providesBaseUrl(): String {
+            return "https://swapi.dev/api/"
+        }
+
+        @Singleton
+        @Provides
+        fun providesConverterFactory(): Converter.Factory {
+            return GsonConverterFactory.create()
+        }
+
+        @Singleton
+        @Provides
+        fun providesOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .build();
+
+
+        @Singleton
+        @Provides
+        fun providesRetrofit(
+            baseUrl: String,
+            converterFactory: Converter.Factory,
+            okHttpClient: OkHttpClient
+        ): Retrofit {
+            val retrofit = Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(okHttpClient)
+                .addConverterFactory(converterFactory)
+
+            return retrofit.build()
+        }
+
+        @Singleton
+        @Provides
+        fun providesStarWarsDataSource(retrofit: Retrofit): StarWarsDataSource =
+            retrofit.create(StarWarsDataSource::class.java)
+
+        @Singleton
+        @Provides
+        fun providesStarWarsDataStore(@ApplicationContext context: Context) =
+            StarWarsDataStore.createDatabase(context)
     }
 
     @Singleton
-    @Provides
-    fun providesConverterFactory(): Converter.Factory {
-        return GsonConverterFactory.create()
-    }
-
-    @Singleton
-    @Provides
-    fun providesOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
-        .connectTimeout(10, TimeUnit.SECONDS)
-        .writeTimeout(10, TimeUnit.SECONDS)
-        .readTimeout(10, TimeUnit.SECONDS)
-        .build();
-
-
-    @Singleton
-    @Provides
-    fun providesRetrofit(
-        baseUrl: String,
-        converterFactory: Converter.Factory,
-        okHttpClient: OkHttpClient
-    ): Retrofit {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .client(okHttpClient)
-            .addConverterFactory(converterFactory)
-
-        return retrofit.build()
-    }
-
-    @Singleton
-    @Provides
-    fun providesStarWarsDataSource(retrofit: Retrofit): StarWarsDataSource =
-        retrofit.create(StarWarsDataSource::class.java)
-
-    @Singleton
-    @Provides
-    fun providesStarWarsDataStore(@ApplicationContext context: Context) =
-        StarWarsDataStore.createDatabase(context)
-
+    @Binds
+    abstract fun providesStarWarsRepository(repositoryImpl: StarWarsRepositoryImpl):
+            StarWarsRepository
 }
