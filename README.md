@@ -48,13 +48,20 @@ and Single Activity architecture pattern.
 
 ### Packages
 
-* `:data:` - The data origin point.  
-  |---`:local:` - Handles data with a local database (Room).  
-  |---`network` - Handles remote APIs.  
-  |---`repository` - Decides from where and how the data should come (local or remote).
-* `:di:` - Hilt modules
-* `:domain:` - Central nervous system of the app containing the contract between UI and Data layer.
-* `:ui` - All the Screens UI lies here in subpackages.
+* [`:data:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/usecase/app/src/main/java/com/example/starnetvoyager/data) -
+  The data origin point.  
+  |---[`:local:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/data/local) -
+  Handles data with a local database (Room).  
+  |---[`:network:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/data/network) -
+  Handles remote APIs.  
+  |---[`:repository:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/data/repository) -
+  Decides from where and how the data should come (local or remote).
+* [`:di:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/di) -
+  Hilt modules
+* [`:domain:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/domain) -
+  Central nervous system of the app containing the contract between UI and Data layer.
+* [`:ui:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/ui) -
+  All the Screens UI lies here in subpackages.
 
 ## Installation
 
