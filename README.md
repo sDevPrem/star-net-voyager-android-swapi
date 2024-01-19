@@ -18,6 +18,28 @@ API using MVVM and clean architecture and uses Room database as a single source 
 |--------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 | ![star_net_voyager_home](https://github.com/sDevPrem/star-net-voyager-android-swapi/assets/130966261/1fa2c774-c822-4384-b70f-d0d8a12b9c52) | ![star_net_voyager_character_filters](https://github.com/sDevPrem/star-net-voyager-android-swapi/assets/130966261/36c7cdfd-4cd3-485d-9d63-87e08780b534) | ![star_net_voyager_home](https://github.com/sDevPrem/star-net-voyager-android-swapi/assets/130966261/05d390b2-6a62-4af6-aa87-05365ad75ba3) |
 
+## Architecture
+
+This app follows MVVM architecture with Clean architecture, Uni Directional Flow (UDF) pattern
+and Single Activity architecture pattern.
+
+### Packages
+
+* [`:data:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/usecase/app/src/main/java/com/example/starnetvoyager/data) -
+  The data origin point.  
+  |---[`:local:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/data/local) -
+  Handles data with a local database (Room).  
+  |---[`:network:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/data/network) -
+  Handles remote APIs.  
+  |---[`:repository:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/data/repository) -
+  Decides from where and how the data should come (local or remote).
+* [`:di:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/di) -
+  Hilt modules
+* [`:domain:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/domain) -
+  Central nervous system of the app containing the contract between UI and Data layer.
+* [`:ui:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/ui) -
+  All the Screens UI lies here in subpackages.
+
 ## Build With
 
 [Kotlin](https://kotlinlang.org/):
@@ -40,28 +62,6 @@ Gets the Star Warriors from stars to your world.
 
 [Coroutines](https://developer.android.com/kotlin/coroutines):
 Mission Coordinator ensuring co-working.
-
-## Architecture
-
-This app follows MVVM architecture with Clean architecture, Uni Directional Flow (UDF) pattern
-and Single Activity architecture pattern.
-
-### Packages
-
-* [`:data:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/usecase/app/src/main/java/com/example/starnetvoyager/data) -
-  The data origin point.  
-  |---[`:local:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/data/local) -
-  Handles data with a local database (Room).  
-  |---[`:network:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/data/network) -
-  Handles remote APIs.  
-  |---[`:repository:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/data/repository) -
-  Decides from where and how the data should come (local or remote).
-* [`:di:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/di) -
-  Hilt modules
-* [`:domain:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/domain) -
-  Central nervous system of the app containing the contract between UI and Data layer.
-* [`:ui:`](https://github.com/sDevPrem/star-net-voyager-android-swapi/tree/main/app/src/main/java/com/example/starnetvoyager/ui) -
-  All the Screens UI lies here in subpackages.
 
 ## Installation
 
