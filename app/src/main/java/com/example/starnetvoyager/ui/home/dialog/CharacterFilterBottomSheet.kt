@@ -12,7 +12,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.example.starnetvoyager.R
 import com.example.starnetvoyager.databinding.FragmentHomeCharacterFilterBinding
-import com.example.starnetvoyager.ui.home.CharacterFilters
+import com.example.starnetvoyager.domain.usecase.character.model.CharacterFilters
 import com.example.starnetvoyager.ui.home.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.flow.collectLatest
