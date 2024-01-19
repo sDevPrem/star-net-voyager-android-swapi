@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         _state.distinctUntilChangedBy { it.filters }
-            .onEach { getFilteredCharacterUseCase(it.filters, viewModelScope) }
+            .onEach { getFilteredCharacterUseCase.updateFilter(it.filters) }
             .launchIn(viewModelScope)
     }
 

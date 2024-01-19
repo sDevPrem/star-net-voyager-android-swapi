@@ -8,32 +8,29 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.update
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 
 class GetFilteredCharacterUseCase @Inject constructor(
     private val repository: StarWarsRepository
 ) {
-    private val param = MutableStateFlow(Params())
+    private val filter = MutableStateFlow(CharacterFilters())
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val characters =
-        param.distinctUntilChanged { old, new ->
-            old.filter.searchQuery == new.filter.searchQuery &&
-                    new.cacheScope == old.cacheScope
-        }
-            .mapLatest { param ->
-                val pagingData = repository.getCharacters(param.filter.searchQuery)
-                param.cacheScope?.let { pagingData.cachedIn(it) } ?: pagingData
+        filter.distinctUntilChangedBy { it.searchQuery }
+            .mapLatest {
+                repository.getCharacters(it.searchQuery)
+                    //cache in parent's coroutineScope
+                    .cachedIn(CoroutineScope(coroutineContext))
             }
 
     val filteredCharacters = characters
-        .combine(param.distinctUntilChangedBy { it.filter.selectedGender }) { data, state ->
-            val selectedGender = state.filter.selectedGender
+        .combine(filter.distinctUntilChangedBy { it.selectedGender }) { data, filter ->
+            val selectedGender = filter.selectedGender
 
             data.map {
                 it.filter { character ->
@@ -56,13 +53,7 @@ class GetFilteredCharacterUseCase @Inject constructor(
             }
         }
 
-    operator fun invoke(filter: CharacterFilters, cacheScope: CoroutineScope) {
-        param.update { it.copy(filter = filter, cacheScope = cacheScope) }
+    fun updateFilter(filter: CharacterFilters) {
+        this.filter.value = filter
     }
-
-
-    private data class Params(
-        val filter: CharacterFilters = CharacterFilters(),
-        val cacheScope: CoroutineScope? = null
-    )
 }
