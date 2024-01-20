@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.starnetvoyager.R
 import com.example.starnetvoyager.common.ui.paging.SimpleLoadStateAdapter
 import com.example.starnetvoyager.databinding.FragmentMovieBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -86,37 +85,12 @@ class MovieFragment : Fragment() {
         }
 
         movieAdapter.addLoadStateListener { loadState ->
-            when (loadState.refresh) {
-                is LoadState.Loading -> showProgressbar()
-                is LoadState.NotLoading -> showList()
-                is LoadState.Error -> {
-                    if (movieAdapter.snapshot().isEmpty()) {
-                        showErrorMsg(loadState.refresh as LoadState.Error)
-                    } else {
-                        showList()
-                    }
-                }
-            }
+            moviesProgressBar.isVisible = loadState.refresh is LoadState.Loading
+            textViewError.isVisible =
+                loadState.refresh is LoadState.Error && movieAdapter.snapshot().isEmpty()
+            moviesRecyclerView.isVisible =
+                loadState.refresh !is LoadState.Loading && movieAdapter.snapshot().isNotEmpty()
         }
-    }
-
-    private fun showErrorMsg(errorLoadState: LoadState.Error?) = binding?.run {
-        moviesProgressBar.isVisible = false
-        moviesProgressBar.isVisible = false
-        textViewError.isVisible = true
-        textViewError.setText(R.string.network_error_msg)
-    }
-
-    private fun showProgressbar() = binding?.run {
-        moviesProgressBar.isVisible = true
-        textViewError.isVisible = false
-        moviesRecyclerView.isVisible = false
-    }
-
-    private fun showList() = binding?.run {
-        moviesRecyclerView.isVisible = true
-        textViewError.isVisible = false
-        moviesProgressBar.isVisible = false
     }
 
     override fun onDestroyView() {

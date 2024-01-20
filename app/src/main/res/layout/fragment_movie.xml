@@ -57,6 +57,7 @@
         android:textAlignment="center"
         android:textAppearance="?textAppearanceBodyLarge"
         android:visibility="gone"
+        android:text="@string/network_error_msg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

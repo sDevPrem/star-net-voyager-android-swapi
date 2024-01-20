@@ -118,37 +118,12 @@ class HomeFragment : Fragment() {
         }
 
         charactersAdapter.addLoadStateListener { loadState ->
-            when (loadState.refresh) {
-                is LoadState.Loading -> showProgressbar()
-                is LoadState.NotLoading -> showList()
-                is LoadState.Error -> {
-                    if (charactersAdapter.snapshot().isEmpty()) {
-                        showErrorMsg(loadState.refresh as LoadState.Error)
-                    } else {
-                        showList()
-                    }
-                }
-            }
+            charactersProgressBar.isVisible = loadState.refresh is LoadState.Loading
+            textViewError.isVisible =
+                loadState.refresh is LoadState.Error && charactersAdapter.snapshot().isEmpty()
+            charactersRecyclerview.isVisible =
+                loadState.refresh !is LoadState.Loading && charactersAdapter.snapshot().isNotEmpty()
         }
-    }
-
-    private fun showErrorMsg(errorLoadState: LoadState.Error?) = binding?.run {
-        charactersProgressBar.isVisible = false
-        charactersRecyclerview.isVisible = false
-        textViewError.isVisible = true
-        textViewError.setText(R.string.network_error_msg)
-    }
-
-    private fun showProgressbar() = binding?.run {
-        charactersProgressBar.isVisible = true
-        textViewError.isVisible = false
-        charactersRecyclerview.isVisible = false
-    }
-
-    private fun showList() = binding?.run {
-        charactersRecyclerview.isVisible = true
-        textViewError.isVisible = false
-        charactersProgressBar.isVisible = false
     }
 
     override fun onDestroyView() {
