@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.starnetvoyager.R
+import com.example.starnetvoyager.common.ui.paging.SimpleLoadStateAdapter
 import com.example.starnetvoyager.databinding.FragmentMovieBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -63,8 +64,25 @@ class MovieFragment : Fragment() {
 
     private fun setUpAdapter() = binding?.run {
         moviesRecyclerView.apply {
-            adapter = movieAdapter
-            layoutManager = GridLayoutManager(context, 2)
+            val spanCount = 2
+            val footerAdapter = SimpleLoadStateAdapter(retry = movieAdapter::retry)
+            val concatAdapter = movieAdapter.withLoadStateFooter(footerAdapter)
+            val layoutManger = GridLayoutManager(context, spanCount)
+                .apply {
+                    spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                        override fun getSpanSize(position: Int): Int {
+                            return if (
+                                position == concatAdapter.itemCount - 1 &&
+                                footerAdapter.itemCount > 0
+                            ) {
+                                spanCount
+                            } else spanCount / spanCount
+                        }
+                    }
+                }
+
+            adapter = concatAdapter
+            this.layoutManager = layoutManger
         }
 
         movieAdapter.addLoadStateListener { loadState ->
