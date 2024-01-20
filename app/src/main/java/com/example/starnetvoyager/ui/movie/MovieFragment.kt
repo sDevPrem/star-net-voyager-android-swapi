@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.starnetvoyager.R
 import com.example.starnetvoyager.common.ui.paging.SimpleLoadStateAdapter
 import com.example.starnetvoyager.databinding.FragmentMovieBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,10 +43,22 @@ class MovieFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = binding?.run {
-        topAppBar.setNavigationOnClickListener {
-            findNavController().navigateUp()
+        moviesToolbar.apply {
+            setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
+            title = "Movies of ${args.characterName}"
+            setOnMenuItemClickListener {
+                return@setOnMenuItemClickListener when (it.itemId) {
+                    R.id.movies_refresh -> {
+                        movieAdapter.refresh()
+                        true
+                    }
+
+                    else -> false
+                }
+            }
         }
-        topAppBar.title = "Movies of ${args.characterName}"
 
         setUpAdapter()
         setUpObserver()

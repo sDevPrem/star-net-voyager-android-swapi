@@ -66,6 +66,11 @@ class HomeFragment : Fragment() {
                     true
                 }
 
+                R.id.character_refresh -> {
+                    charactersAdapter.refresh()
+                    true
+                }
+
                 else -> false
             }
         }
