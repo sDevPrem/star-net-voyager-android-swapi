@@ -13,7 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.example.starnetvoyager.R
+import com.example.starnetvoyager.common.ui.paging.SimpleLoadStateAdapter
 import com.example.starnetvoyager.databinding.FragmentHomeBinding
 import com.example.starnetvoyager.domain.entity.StarWarsCharacter
 import com.example.starnetvoyager.ui.home.dialog.CharacterFilterBottomSheet
@@ -94,8 +96,25 @@ class HomeFragment : Fragment() {
 
     private fun setUpAdapter() = binding?.run {
         charactersRecyclerview.apply {
-            adapter = charactersAdapter
-            layoutManager = GridLayoutManager(context, 2)
+            val spanCount = 2
+            val footerAdapter = SimpleLoadStateAdapter(retry = charactersAdapter::retry)
+            val concatAdapter = charactersAdapter.withLoadStateFooter(footerAdapter)
+            val layoutManger = GridLayoutManager(context, spanCount)
+                .apply {
+                    spanSizeLookup = object : SpanSizeLookup() {
+                        override fun getSpanSize(position: Int): Int {
+                            return if (
+                                position == concatAdapter.itemCount - 1 &&
+                                footerAdapter.itemCount > 0
+                            ) {
+                                spanCount
+                            } else spanCount / spanCount
+                        }
+                    }
+                }
+
+            adapter = concatAdapter
+            this.layoutManager = layoutManger
         }
 
         charactersAdapter.addLoadStateListener { loadState ->
